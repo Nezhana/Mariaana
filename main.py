@@ -58,6 +58,6 @@ user_input = st.text_area(
 
 messages = st.container()
 if user_input:
-    message = input_recognize(user_input)
+    message, _ = input_recognize(user_input)
     messages.chat_message("user", avatar='👨‍🎓').write(user_input)
     messages.chat_message("assistant", avatar='👩‍🦰').write(f"Echo: {message}")
