@@ -160,40 +160,38 @@ def main():
                         height=140, disabled=False,
                         help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
 
-    while True:
-        if chat_form == 'voice':
-            user_input = speech_to_text()
-        elif chat_form == 'text':
-            # user_input = input('Введіть репліку: ')
-            pass
-        else:
-            raise ValueError(f'chat_form = {chat_form}')
-        if user_input:
-            if user_input.lower() == "до побачення" or user_input.lower() == "бувай" :
-                message = 'До зустрiчi!'
+    if chat_form == 'voice':
+        user_input = speech_to_text()
+    elif chat_form == 'text':
+        # user_input = input('Введіть репліку: ')
+        pass
+    else:
+        raise ValueError(f'chat_form = {chat_form}')
+    if user_input:
+        if user_input.lower() == "до побачення" or user_input.lower() == "бувай" :
+            message = 'До зустрiчi!'
+            messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+            messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+
+        message, status = mariaana.input_recognize(user_input)
+        match status:
+            case 'answer':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                break
-
-            message, status = mariaana.input_recognize(user_input)
-            match status:
-                case 'answer':
-                    messages.chat_message("user", avatar='👨‍🎓').write(user_input)
-                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                    mariaana.say(message)
-                    # print('Мар\'яна: ' + message)
-                case 'voice':
-                    messages.chat_message("user", avatar='👨‍🎓').write(user_input)
-                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                    mariaana.say(message)
-                    # print('Мар\'яна: ' + message)
-                    chat_form = status
-                case 'text':
-                    messages.chat_message("user", avatar='👨‍🎓').write(user_input)
-                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                    mariaana.say(message)
-                    # print('Мар\'яна: ' + message)
-                    chat_form = status
+                mariaana.say(message)
+                # print('Мар\'яна: ' + message)
+            case 'voice':
+                messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+                messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+                mariaana.say(message)
+                # print('Мар\'яна: ' + message)
+                chat_form = status
+            case 'text':
+                messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+                messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+                mariaana.say(message)
+                # print('Мар\'яна: ' + message)
+                chat_form = status
 
 if __name__ == '__main__' :
     main()
