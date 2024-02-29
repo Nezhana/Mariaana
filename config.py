@@ -1,0 +1,1 @@
+activation_key = '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'
