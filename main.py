@@ -155,15 +155,17 @@ def main():
     # print("- змінити формат письмовий")
     # print("- змінити формат усний")
 
+    user_input = st.text_area(
+                        "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
+                        height=140, disabled=False,
+                        help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
+
     while True:
         if chat_form == 'voice':
             user_input = speech_to_text()
         elif chat_form == 'text':
             # user_input = input('Введіть репліку: ')
-            user_input = st.text_area(
-                        "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
-                        height=140, disabled=False,
-                        help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
+            pass
         else:
             raise ValueError(f'chat_form = {chat_form}')
         if user_input:
