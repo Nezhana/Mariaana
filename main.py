@@ -1,7 +1,6 @@
 
 # main file
 
-
 def input_recognize(user_input):
     match user_input.lower():
         case 'привіт':
@@ -39,6 +38,7 @@ def input_recognize(user_input):
 
 
 import streamlit as st
+st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
 st.title('Мар\'янка')
 
 volume = st.slider('Для того, щоб змінити швидкість, надайте значення від нуля до ста.', 0, 100, 100)
@@ -60,4 +60,4 @@ messages = st.container()
 if user_input:
     message, _ = input_recognize(user_input)
     messages.chat_message("user", avatar='👨‍🎓').write(user_input)
-    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Echo: {message}")
+    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
