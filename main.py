@@ -109,19 +109,20 @@ class Mariaana():
                 status = 'answer'
                 return message, status
             case _:
-                message = user_input.lower().split()
-                if message[0] in ('як', 'який', 'яке', 'яка', 'які', 'чому', 'що',\
-                                  'де', 'кого', 'хто', 'чи', 'коли', 'якщо'):
-                    message = ' '.join(message) + '?'
+                # message = user_input.lower().split()
+                # if message[0] in ('як', 'який', 'яке', 'яка', 'які', 'чому', 'що',\
+                #                   'де', 'кого', 'хто', 'чи', 'коли', 'якщо'):
+                #     message = ' '.join(message) + '?'
                 
-                response = self.client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": message}
-                    ]
-                )
-                answer = response.choices[0].message.content
+                # response = self.client.chat.completions.create(
+                #     model="gpt-3.5-turbo",
+                #     messages=[
+                #         {"role": "system", "content": "You are a helpful assistant."},
+                #         {"role": "user", "content": message}
+                #     ]
+                # )
+                # answer = response.choices[0].message.content
+                answer = user_input
                 status = 'answer'
                 return answer, status
 
@@ -146,17 +147,17 @@ def main():
     rate = st.slider('Для того, щоб змінити гучність, надайте значення від нуля до ста.', 0, 100, 100)
 
     
-    user_input = st.text_area(
-        "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
-        height=140, disabled=False,
-        help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
+    # user_input = st.text_area(
+    #     "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
+    #     height=140, disabled=False,
+    #     help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
     
     
     messages = st.container(border=True)
-    if user_input:
-        message, _ = mariaana.input_recognize(user_input)
-        messages.chat_message("user", avatar='👨‍🎓').write(user_input)
-        messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+    # if user_input:
+    #     message, _ = mariaana.input_recognize(user_input)
+    #     messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+    #     messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
 
     # print("Привiт! Скажiть щось або 'До побачення', щоб завершити.")
     # print("Ось перелік основних команд:")
@@ -169,26 +170,39 @@ def main():
         if chat_form == 'voice':
             user_input = speech_to_text()
         elif chat_form == 'text':
-            user_input = input('Введіть репліку: ')
+            # user_input = input('Введіть репліку: ')
+            user_input = st.text_area(
+                        "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
+                        height=140, disabled=False,
+                        help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
         else:
             raise ValueError(f'chat_form = {chat_form}')
-        if user_input.lower() == "до побачення" or user_input.lower() == "бувай" :
-            mariaana.say('До зустрiчi!')
-            print("Мар\'яна: До зустрiчi!")
-            break
-        message, status = mariaana.input_recognize(user_input)
-        match status:
-            case 'answer':
-                mariaana.say(message)
-                print('Мар\'яна: ' + message)
-            case 'voice':
-                mariaana.say(message)
-                print('Мар\'яна: ' + message)
-                chat_form = status
-            case 'text':
-                mariaana.say(message)
-                print('Мар\'яна: ' + message)
-                chat_form = status
+        if user_input:
+            if user_input.lower() == "до побачення" or user_input.lower() == "бувай" :
+                message = 'До зустрiчi!'
+                messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+                messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+                break
+
+            message, status = mariaana.input_recognize(user_input)
+            match status:
+                case 'answer':
+                    messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+                    mariaana.say(message)
+                    # print('Мар\'яна: ' + message)
+                case 'voice':
+                    messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+                    mariaana.say(message)
+                    # print('Мар\'яна: ' + message)
+                    chat_form = status
+                case 'text':
+                    messages.chat_message("user", avatar='👨‍🎓').write(user_input)
+                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+                    mariaana.say(message)
+                    # print('Мар\'яна: ' + message)
+                    chat_form = status
 
 if __name__ == '__main__' :
     main()
