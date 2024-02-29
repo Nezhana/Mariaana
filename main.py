@@ -56,7 +56,7 @@ user_input = st.text_area(
 # if txt:
 #     st.write("You entered: ", txt)
 
-messages = st.container()
+messages = st.container(border=True)
 if user_input:
     message, _ = input_recognize(user_input)
     messages.chat_message("user", avatar='👨‍🎓').write(user_input)
