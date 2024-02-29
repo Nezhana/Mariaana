@@ -21,8 +21,9 @@ class Mariaana():
     def say(self, text):
         self.engine.say(text)
         self.engine.runAndWait()
-        self.engine.startLoop(False)
-        self.engine.endLoop()
+        # self.engine.startLoop(False)
+        if self.engine._inLoop:
+            self.engine.endLoop()
     
     def change_rate(self, rate):
         # corelate rate value:
