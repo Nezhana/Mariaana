@@ -8,7 +8,7 @@ import speech_recognition as s
 from openai import OpenAI
 from config import activation_key
 import streamlit as st
-
+import time
 
 class Mariaana():
 
@@ -19,14 +19,15 @@ class Mariaana():
         self.client = OpenAI(api_key=activation_key)
 
     def say(self, text):
-        if self.engine._inLoop:
-            self.engine.endLoop()
-        self.engine.startLoop(False)
+        # if self.engine._inLoop:
+        #     self.engine.endLoop()
+        # self.engine.startLoop(False)
+        time.sleep(7)
         self.engine.say(text)
         self.engine.runAndWait()
         # self.engine.startLoop(False)
-        # if self.engine._inLoop:
-        #     self.engine.endLoop()
+        if self.engine._inLoop:
+            self.engine.endLoop()
     
     def change_rate(self, rate):
         # corelate rate value:
