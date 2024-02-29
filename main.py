@@ -61,3 +61,11 @@ if user_input:
     message, _ = input_recognize(user_input)
     messages.chat_message("user", avatar='👨‍🎓').write(user_input)
     messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+
+if volume:
+    message = f'Змінюю гучність на: {volume}%.'
+    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
+
+if rate:
+    message = f'Змінюю швидкість на: {rate}%.'
+    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
