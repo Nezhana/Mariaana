@@ -182,18 +182,18 @@ def main():
             case 'answer':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                mariaana.say(message)
+                # mariaana.say(message)
                 # print('Мар\'яна: ' + message)
             case 'voice':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                mariaana.say(message)
+                # mariaana.say(message)
                 # print('Мар\'яна: ' + message)
                 chat_form = status
             case 'text':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                mariaana.say(message)
+                # mariaana.say(message)
                 # print('Мар\'яна: ' + message)
                 chat_form = status
 
