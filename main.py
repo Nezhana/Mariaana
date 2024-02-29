@@ -10,8 +10,19 @@ from config import activation_key
 import streamlit as st
 import time
 
+
+st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
+st.title('Мар\'янка')
+
 volume = st.slider('Для того, щоб змінити швидкість, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
 rate = st.slider('Для того, щоб змінити гучність, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
+
+messages = st.container(border=True)
+
+user_input = st.text_area(
+                    "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
+                    height=140, disabled=False,
+                    help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
 
 class Mariaana():
 
@@ -87,6 +98,7 @@ class Mariaana():
                     volume_val = float(volume)
                     message = f'Змінюю гучність на: {volume_val}%.'
                     self.change_volume(volume_val)
+                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
 
                 # try:
                 #     volume_val = float(user_input)
@@ -112,6 +124,7 @@ class Mariaana():
                     rate_val = float(rate)
                     message = f'Змінюю гучність на: {rate_val}%.'
                     self.change_rate(rate_val)
+                    messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
 
                 # user_input = speech_to_text()
                 # try:
@@ -158,23 +171,12 @@ def main():
     mariaana = Mariaana()
     chat_form = 'text'
 
-    st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
-    st.title('Мар\'янка')
-
-
-    messages = st.container(border=True)
-
     # print("Привiт! Скажiть щось або 'До побачення', щоб завершити.")
     # print("Ось перелік основних команд:")
     # print("- змінити гучніть")
     # print("- змінити швидкість")
     # print("- змінити формат письмовий")
     # print("- змінити формат усний")
-
-    user_input = st.text_area(
-                        "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
-                        height=140, disabled=False,
-                        help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
 
     if chat_form == 'voice':
         user_input = speech_to_text()
