@@ -13,5 +13,10 @@ txt = st.text_area(
     height=300, disabled=False,
     help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
 
+# if txt:
+#     st.write("You entered: ", txt)
+
+messages = st.container()
 if txt:
-        st.write("You entered: ", txt)
+    messages.chat_message("user", avatar='👨‍🎓').write(txt)
+    messages.chat_message("assistant", avatar='👩‍🦱').write(f"Echo: {txt}")
