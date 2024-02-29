@@ -136,7 +136,7 @@ def speech_to_text():
 def main():
     
     mariaana = Mariaana()
-    chat_form = 'voice'
+    chat_form = 'text'
 
     st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
     st.title('Мар\'янка')
