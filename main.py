@@ -10,6 +10,9 @@ from config import activation_key
 import streamlit as st
 import time
 
+volume = st.slider('Для того, щоб змінити швидкість, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
+rate = st.slider('Для того, щоб змінити гучність, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
+
 class Mariaana():
 
     def __init__(self):
@@ -73,44 +76,56 @@ class Mariaana():
                 status = 'text'
                 return message, status
             case 'змінити гучність':
-                while True:
-                    message = 'Для того, щоб змінити гучність, надайте значення від нуля до ста.\n'
-                    message += 'Наприклад: сорок.'
-                    self.say(message)
-                    print('Мар\'яна: ' + message)
+                volume.disabled = False
+                message = 'Для того, щоб змінити гучність, надайте значення від нуля до ста.\n'
+                message += 'Наприклад: сорок.'
+                # self.say(message)
+                # print('Мар\'яна: ' + message)
 
-                    user_input = speech_to_text()
-                    try:
-                        volume_val = float(user_input)
-                        message = f'Змінюю гучність на: {user_input}%.'
-                        self.say(message)
-                        print('Мар\'яна: ' + message)
-                        self.change_volume(volume_val)
-                        break
-                    except ValueError:
-                        continue
+                # user_input = speech_to_text()
+                if volume:
+                    volume_val = float(volume)
+                    message = f'Змінюю гучність на: {volume_val}%.'
+                    self.change_volume(volume_val)
+
+                # try:
+                #     volume_val = float(user_input)
+                #     message = f'Змінюю гучність на: {user_input}%.'
+                #     # self.say(message)
+                #     # print('Мар\'яна: ' + message)
+                #     self.change_volume(volume_val)
+                #     break
+                # except ValueError:
+                #     continue
                 message = 'Гучність змінена. Що я можу зробити для вас ще?'
                 status = 'answer'
+                volume.disabled = True
                 return message, status
             case 'змінити швидкість':
-                while True:
-                    message = 'Для того, щоб змінити швидкість, надайте значення від нуля до ста.\n'
-                    message += 'Наприклад: шістдесят п\'ять.'
-                    self.say(message)
-                    print('Мар\'яна: ' + message)
+                rate.disabled = True
+                message = 'Для того, щоб змінити швидкість, надайте значення від нуля до ста.\n'
+                message += 'Наприклад: шістдесят п\'ять.'
+                # self.say(message)
+                # print('Мар\'яна: ' + message)
 
-                    user_input = speech_to_text()
-                    try:
-                        rate_val = int(user_input)
-                        message = f'Змінюю швидкість на: {rate_val}%.'
-                        self.say(message)
-                        print('Мар\'яна: ' + message)
-                        self.change_rate(rate_val)
-                        break
-                    except ValueError:
-                        continue
+                if rate:
+                    rate_val = float(rate)
+                    message = f'Змінюю гучність на: {rate_val}%.'
+                    self.change_rate(rate_val)
+
+                # user_input = speech_to_text()
+                # try:
+                #     rate_val = int(user_input)
+                #     message = f'Змінюю швидкість на: {rate_val}%.'
+                #     self.say(message)
+                #     print('Мар\'яна: ' + message)
+                #     self.change_rate(rate_val)
+                #     break
+                # except ValueError:
+                #     continue
                 message = 'Швідкість змінена. Що я можу зробити для вас ще?'
                 status = 'answer'
+                rate.disabled = True
                 return message, status
             case _:
                 # message = user_input.lower().split()
@@ -146,9 +161,6 @@ def main():
     st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
     st.title('Мар\'янка')
 
-    
-    volume = st.slider('Для того, щоб змінити швидкість, надайте значення від нуля до ста.', 0, 100, 100)
-    rate = st.slider('Для того, щоб змінити гучність, надайте значення від нуля до ста.', 0, 100, 100)
 
     messages = st.container(border=True)
 
