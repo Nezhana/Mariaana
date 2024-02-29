@@ -20,7 +20,7 @@ class Mariaana():
 
     def say(self, text):
         self.engine.say(text)
-        self.engine.runAndWait()
+        # self.engine.runAndWait()
     
     def change_rate(self, rate):
         # corelate rate value:
