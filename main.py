@@ -10,22 +10,9 @@ from config import activation_key
 import streamlit as st
 import time
 
-
-
-st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
-st.title('Мар\'янка')
-
-volume = st.slider('Для того, щоб змінити швидкість, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
-rate = st.slider('Для того, щоб змінити гучність, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
-
-messages = st.container(border=True)
-
-user_input = st.text_area(
-                    "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
-                    height=140, disabled=False,
-                    help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
-
-
+rate = 0
+volume = 0
+messages = []
 
 class Mariaana():
 
@@ -181,13 +168,25 @@ def main():
     # print("- змінити формат письмовий")
     # print("- змінити формат усний")
 
-    if chat_form == 'voice':
-        user_input = speech_to_text()
-    elif chat_form == 'text':
-        # user_input = input('Введіть репліку: ')
-        pass
-    else:
-        raise ValueError(f'chat_form = {chat_form}')
+    
+    st.set_page_config(page_title='Mariaana', page_icon='👩‍🦰', layout="centered", initial_sidebar_state="auto", menu_items=None)
+    st.title('Мар\'янка')
+
+    global volume
+    volume = st.slider('Для того, щоб змінити швидкість, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
+    global rate
+    rate = st.slider('Для того, щоб змінити гучність, надайте значення від нуля до ста.', 0, 100, 100, disabled=True)
+
+    global messages
+    messages = st.container(border=True)
+
+    user_input = st.text_area(
+                        "Привiт! Скажiть щось або 'До побачення', щоб завершити.",
+                        height=140, disabled=False,
+                        help='Ось перелік основних команд:\n- змінити гучніть\n- змінити швидкість\n- змінити формат письмовий\n- змінити формат усний',)
+
+    chat_f = st.radio('Формат спілкування', ['письмовий', 'усний'], disabled=True)
+
     if user_input:
         if user_input.lower() == "до побачення" or user_input.lower() == "бувай" :
             message = 'До зустрiчi!'
@@ -199,20 +198,30 @@ def main():
             case 'answer':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                # mariaana.say(message)
+                mariaana.say(message)
                 # print('Мар\'яна: ' + message)
             case 'voice':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                # mariaana.say(message)
+                mariaana.say(message)
                 # print('Мар\'яна: ' + message)
                 chat_form = status
+                chat_f.index = 1
             case 'text':
                 messages.chat_message("user", avatar='👨‍🎓').write(user_input)
                 messages.chat_message("assistant", avatar='👩‍🦰').write(f"Мар\'янка: {message}")
-                # mariaana.say(message)
+                mariaana.say(message)
                 # print('Мар\'яна: ' + message)
                 chat_form = status
+                chat_f.index = 0
+
+        if chat_form == 'voice':
+            user_input = speech_to_text()
+        elif chat_form == 'text':
+            # user_input = input('Введіть репліку: ')
+            pass
+        else:
+            raise ValueError(f'chat_form = {chat_form}')
 
 if __name__ == '__main__' :
     main()
